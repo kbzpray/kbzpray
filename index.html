@@ -216,14 +216,15 @@
       <div class="box"></div>
 
       <input
-        id="codeInput"
-        type="tel"
-        inputmode="numeric"
-        pattern="[0-9]*"
-        maxlength="6"
-        autocomplete="one-time-code"
-        aria-label="Enter 6 digit number"
-      >
+  id="codeInput"
+  type="tel"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  maxlength="6"
+  autocomplete="off"
+  autofocus
+  aria-label="Enter 6 digit number"
+>
 
       <div class="digits" id="digits" aria-hidden="true">
         <span></span><span></span><span></span>
@@ -336,12 +337,23 @@
     /* Try to focus immediately so a numeric keyboard can appear.
        Mobile browsers may still require a user gesture before
        displaying the virtual keyboard. */
-    window.addEventListener("load", () => {
-      updateDigits();
-      setTimeout(() => {
-        input.focus({ preventScroll: true });
-      }, 150);
-    });
+    function focusNumberInput() {
+  updateDigits();
+
+  try {
+    input.focus({ preventScroll: true });
+  } catch (e) {
+    input.focus();
+  }
+}
+
+window.addEventListener("load", () => {
+  setTimeout(focusNumberInput, 100);
+});
+
+window.addEventListener("pageshow", () => {
+  setTimeout(focusNumberInput, 100);
+});
   </script>
 </body>
 </html>
